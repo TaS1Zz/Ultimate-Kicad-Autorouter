@@ -1,0 +1,23 @@
+# Тестовая плата (tools/make_demo_board.py). Запуск: python route_board.py boards/demo.toml out/demo
+[board]
+file = "../example/demo_board.kicad_pcb"
+
+[power.currents]           # А
+"+3V3"   = 0.15            # MCU
+"LED_K*" = 0.02            # ток одного светодиода через драйвер
+
+[power.loads]              # VBUS: сумма потребителей; выход на разъём J2 — 1 А для внешней нагрузки
+"VBUS" = { J2 = 1.0, U3 = 0.1, U2 = 0.05, D9 = 0.02, D10 = 0.02, D11 = 0.02, D12 = 0.02, D13 = 0.02, D14 = 0.02, D15 = 0.02, D16 = 0.02 }
+
+[power.sources]            # откуда втекает ток: для расчёта падения напряжения по меди
+"VBUS" = "J1"
+"+3V3" = "U3"
+
+[fanout]
+refs = ["J1"]              # кроме микросхем (находятся сами) — разъём USB-C
+[fanout.pins]
+"J1" = ["A5", "A6", "A7", "B5", "B6", "B7"]
+
+[nets]
+fast = ["USB_D*"]          # быстрые фронты: только слой с опорной плоскостью рядом
+diff_pairs = [["USB_D+", "USB_D-", 90.0]]

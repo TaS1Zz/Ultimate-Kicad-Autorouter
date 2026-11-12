@@ -1,0 +1,13 @@
+﻿__pycache__/
+*.pyc
+out/
+*.so
+*.dylib
+*.lib
+*.pdb
+*.exp
+*.kicad_pcb.tmp
+*.kicad_pcb.best
+*.kicad_prl
+*-backups/
+.pytest_cache/
