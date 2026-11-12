@@ -11,9 +11,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Dependencies
@@ -25,5 +28,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: cmd
         run: build.bat
-      - name: Tests (incl. full demo board routing; KiCad DRC test is skipped without kicad-cli)
-        run: python -m pytest -q
+      - name: Core loads
+        run: python -c "import route2; print('A* core OK')"
+      - name: Tests (incl. full demo board routing; KiCad tests are skipped without KiCad)
+        run: python -m pytest -q -rfEs --tb=short
