@@ -9,6 +9,10 @@ and a KiCad DRC feedback loop.*
 
 ![Тестовая плата после трассировки](docs/demo_routed.png)
 
+**Документация:** [возможности](docs/features.md) · [установка и запуск](docs/usage.md) ·
+[конфигурация](docs/configuration.md) · [как это работает](docs/algorithms.md) · [плагин KiCad](docs/plugin.md) ·
+[разработка](docs/development.md)
+
 ## Быстрый старт
 
 Нужны Python 3.10+ (`pip install -r requirements.txt`) и, для проверки DRC, KiCad 8+ (`kicad-cli`).
