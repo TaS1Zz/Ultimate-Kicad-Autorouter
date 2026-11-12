@@ -13,7 +13,7 @@ from post import postprocess
 from zones import add_zones
 import power, diffpair, metrics, check
 
-ROUTING_DRC = {'clearance', 'hole_clearance', 'copper_edge_clearance', 'track_dangling', 'via_dangling',
+ROUTING_DRC = {'clearance', 'hole_clearance', 'hole_to_hole', 'copper_edge_clearance', 'track_dangling', 'via_dangling',
                'unconnected_items', 'starved_thermal', 'shorting_items', 'tracks_crossing', 'track_width',
                'annular_width', 'via_diameter', 'diff_pair_gap_out_of_range'}
 

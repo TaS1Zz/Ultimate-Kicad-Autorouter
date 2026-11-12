@@ -86,6 +86,8 @@ def route(cfg, out, threads=1):
         R.rebuild()
         for n in nets: R.route_net(n)
     rip_up(R, list(power) + list(pairs), pairs)
+    import diffpair
+    diffpair.compensate(R, log)            # выровнять длины проводников пар
     log('итог трассировки', round(time.time() - t, 1), 'с; неразведено', R.fail)
     if R.warn: log('предупреждения по ширине:', R.warn)
     state = dict(tracks=R.tracks, vias=R.vias, fail=R.fail, warn=R.warn, anchors=R.anchors, fan=R.fan, fanrec=R.fanrec,

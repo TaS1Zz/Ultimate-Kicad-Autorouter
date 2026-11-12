@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: python -m pip install -r requirements.txt pytest ziglang
+      - name: Build A* core (Linux)
+        if: runner.os == 'Linux'
+        run: sh build.sh
+      - name: Build A* core (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: build.bat
+      - name: Tests (incl. full demo board routing; KiCad DRC test is skipped without kicad-cli)
+        run: python -m pytest -q

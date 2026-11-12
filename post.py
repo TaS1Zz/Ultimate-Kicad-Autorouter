@@ -56,7 +56,11 @@ def postprocess(tracks, vias, pads):
             if a[0]==b[0] and math.hypot(a[1]-b[1],a[2]-b[2])<0.56:
                 lays=set(t[1] for t in tracks if t[0]==b[0] and (math.hypot(t[2]-b[1],t[3]-b[2])<0.31 or math.hypot(t[4]-b[1],t[5]-b[2])<0.31))
                 if b[0]=='GND' and not lays: lays={3}
-                nt=tracks+[(b[0],l,b[1],b[2],a[1],a[2],0.25) for l in lays]
+                # перемычка — тоже 0/45/90°: диагональ + прямой участок через угол c
+                dx,dy=a[1]-b[1],a[2]-b[2]; m=min(abs(dx),abs(dy))
+                c=(b[1]+math.copysign(m,dx),b[2]+math.copysign(m,dy))
+                pts=[p for k,p in enumerate([(b[1],b[2]),c,(a[1],a[2])]) if k==0 or math.hypot(p[0]-[(b[1],b[2]),c][k-1][0],p[1]-[(b[1],b[2]),c][k-1][1])>1e-6]
+                nt=tracks+[(b[0],l,p[0],p[1],q[0],q[1],0.25) for l in lays for p,q in zip(pts,pts[1:])]
                 nv=vias[:j]+vias[j+1:]
                 if net_components(b[0],nt,nv,pads)==1:
                     tracks,vias=nt,nv; continue
